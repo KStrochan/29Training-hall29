@@ -39,7 +39,6 @@ img {
   top: 0;
   z-index: 50;
   background: rgba(7, 9, 13, 0.78);
-  backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -145,6 +144,7 @@ img {
   margin-top: 6px;
   color: #c9ff62;
   text-shadow: 0 0 26px rgba(201, 255, 98, 0.18);
+  font-size: 42px;
 }
 
 .hero__actions {
@@ -603,6 +603,20 @@ img {
   border-radius: 20px;
 }
 
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff; /* або твій колір */
+  transition: 0.3s ease;
+}
+
+.socialLink:hover {
+  color: #E1306C; /* Instagram color */
+  transform: scale(1.1);
+}
+
+
 /* ===== Footer ===== */
 .siteFooter {
   padding: 46px 0 28px;
@@ -678,6 +692,9 @@ img {
   .hero__title {
     font-size: 52px;
   }
+  .hero__titleAccent {
+    font-size: 62px;
+  }
 
   .benefits {
     grid-template-columns: repeat(2, 1fr);
@@ -738,4 +755,18 @@ img {
   background: #c9ff62;
   color: #000;
   font-weight: 800;
+}
+
+
+/* =================TEXT SCROLL=============== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
 }
