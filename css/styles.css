@@ -135,6 +135,15 @@ img {
   letter-spacing: -0.04em;
   color: rgba(255, 255, 255, 0.94);
 }
+.hero__tagline {
+  margin-top: 16px;
+  font-size: 18px;
+  font-weight: 500;
+  opacity: 0.85;
+  max-width: 500px;
+  color: rgba(255, 255, 255, 0.94);
+}
+
 .hero__badges{
     padding-top: 64px;
 }
