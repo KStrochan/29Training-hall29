@@ -779,3 +779,50 @@ img {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* =============FEEDBACK============ */
+.section--reviews {
+  padding: 80px 0;
+  padding-top: 0px;
+  padding-bottom: 0;
+}
+
+.reviewsGrid {
+  display: grid;
+  gap: 24px;
+}
+.reviewsGrid p {
+  color: rgba(255, 255, 255, 0.92);
+
+}
+
+.reviewCard {
+  background: #1a1a1a;
+  padding: 30px;
+  border-radius: 20px;
+  transition: 0.3s ease;
+}
+
+.reviewCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.reviewStars {
+  color: #E1306C;
+  letter-spacing: 4px;
+  margin-bottom: 15px;
+}
+
+.reviewText {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.reviewAuthor {
+  font-weight: 600;
+  opacity: 0.7;
+}
+
