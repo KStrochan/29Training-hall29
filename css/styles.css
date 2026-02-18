@@ -143,6 +143,37 @@ img {
   max-width: 500px;
   color: rgba(255, 255, 255, 0.94);
 }
+.hero__subtitle {
+  margin-top: 18px;
+  font-size: 18px;
+  opacity: 0.85;
+  max-width: 600px;
+}
+
+.hero__highlight {
+  margin-bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  background: rgba(158, 255, 0, 0.08);
+  border: 1px solid rgba(158, 255, 0, 0.3);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.hero__highlight span:first-child {
+  color: #9EFF00;
+}
+
+.hero__equals {
+  opacity: 0.6;
+  color: rgba(255, 255, 255, 0.94);
+}
+.hero__equality{
+  color: rgba(255, 255, 255, 0.94);
+}
 
 .hero__badges{
     padding-top: 64px;
@@ -161,6 +192,39 @@ img {
   flex-wrap: wrap;
   gap: 10px;
   margin: 12px 0 14px;
+}
+.hero__fitBlock {
+  margin-top: 30px;
+  max-width: 700px;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.hero__fitTitle {
+  font-weight: 600;
+  margin-bottom: 15px;
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+.hero__fitChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.fitChip {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+.fitChip:hover {
+  background: #9EFF00;
+  color: #000;
+  transform: translateY(-2px);
 }
 
 .btn,
