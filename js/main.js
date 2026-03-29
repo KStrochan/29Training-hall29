@@ -16,6 +16,13 @@ revealElements.forEach((el, index) => {
     },
     { threshold: 0.2 }
   );
+  window.addEventListener("load", () => {
+  const loader = document.querySelector(".loader");
+
+  setTimeout(() => {
+    loader.classList.add("hide");
+  }, 500);
+});
 
   revealElements.forEach(el => revealObserver.observe(el));
 
@@ -125,6 +132,18 @@ links.forEach(link => {
     }
   });
 });
+
+const form = document.querySelector(".booking-form");
+
+if (form) {
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    alert("Дякуємо! Ми зв'яжемось з вами");
+
+    form.reset();
+  });
+}
 
 const header = document.querySelector(".siteHeader");
 
