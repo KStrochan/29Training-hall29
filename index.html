@@ -14,7 +14,11 @@
 </head>
 <body>
   <div class="loader">
-  <div class="loader-circle"></div>
+  <div class="loader-brand">
+    <span class="loader-mark">29</span>
+    <span class="loader-text">minutes gym</span>
+  </div>
+</div>
 </div>
      <!-- HEADER -->
     <header class="siteHeader">
@@ -352,19 +356,20 @@
 <section class="booking">
   <div class="container">
     <div class="booking-box">
-
       <h2>Записатися на тренування</h2>
       <p>Залиште свої дані і ми зв'яжемось з вами</p>
 
-      <form class="booking-form">
-        <input type="text" placeholder="Ваше ім'я" required>
-        <input type="tel" placeholder="Телефон" required>
+      <form class="booking-form" id="booking-form">
+        <input type="text" name="name" placeholder="Ваше ім'я" required>
+        <input type="tel" name="phone" placeholder="Телефон" required>
+        <textarea name="message" placeholder="Ваш коментар (необов'язково)"></textarea>
 
         <button type="submit" class="btn btn-primary">
           Записатися
         </button>
       </form>
 
+      <p class="form-status" id="form-status"></p>
     </div>
   </div>
 </section>
@@ -485,5 +490,13 @@
 </footer>
 
 <script src="js/main.js"></script>
+<div class="success-modal" id="success-modal">
+  <div class="success-modal__box">
+    <div class="success-modal__icon">✓</div>
+    <h3>Заявку відправлено</h3>
+    <p>Ми скоро зв'яжемось з вами.</p>
+    <button class="btn btn-primary" id="close-success-modal">Добре</button>
+  </div>
+</div>
 </body>
 </html>

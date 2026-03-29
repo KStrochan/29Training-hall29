@@ -1,93 +1,68 @@
 document.addEventListener("DOMContentLoaded", () => {
-const revealElements = document.querySelectorAll(".reveal");
 
-revealElements.forEach((el, index) => {
-  el.style.transitionDelay = `${index * 0.8}s`;
-});
-  const navLinks = document.querySelectorAll(".nav__link");
+  /* ================= REVEAL ================= */
+  const revealElements = document.querySelectorAll(".reveal");
 
-  const revealObserver = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("active");
-        }
-      });
-    },
-    { threshold: 0.2 }
-  );
-  window.addEventListener("load", () => {
-  const loader = document.querySelector(".loader");
-
-  setTimeout(() => {
-    loader.classList.add("hide");
-  }, 500);
-});
-
-  revealElements.forEach(el => revealObserver.observe(el));
-
-  const sections = [
-    { id: "advantages", link: document.querySelector('.nav__link[href="#advantages"]') },
-    { id: "pricing", link: document.querySelector('.nav__link[href="#pricing"]') },
-    { id: "location", link: document.querySelector('.nav__link[href="#location"]') }
-  ];
-  
-
-  const sectionObserver = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          navLinks.forEach(link => link.classList.remove("nav__link--active"));
-
-          const current = sections.find(section => section.id === entry.target.id);
-          if (current && current.link) {
-            current.link.classList.add("nav__link--active");
-          }
-        }
-      });
-    },
-    {
-      threshold: 0.35,
-      rootMargin: "-20% 0px -45% 0px"
-    }
-  );
-
-  sections.forEach(section => {
-    const el = document.getElementById(section.id);
-    if (el) sectionObserver.observe(el);
+  revealElements.forEach((el, index) => {
+    el.style.transitionDelay = `${index * 0.1}s`;
   });
-});
 
-document.addEventListener("DOMContentLoaded", () => {
-  const elements = document.querySelectorAll(".reveal");
-
-  const observer = new IntersectionObserver(entries => {
+  const revealObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add("active");
       }
     });
+  }, { threshold: 0.2 });
+
+  revealElements.forEach(el => revealObserver.observe(el));
+
+
+  /* ================= ACTIVE NAV ================= */
+  const navLinks = document.querySelectorAll(".nav__link");
+
+  const sections = [
+    { id: "advantages", link: document.querySelector('[href="#advantages"]') },
+    { id: "pricing", link: document.querySelector('[href="#pricing"]') },
+    { id: "location", link: document.querySelector('[href="#location"]') }
+  ];
+
+  const sectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => link.classList.remove("nav__link--active"));
+
+        const current = sections.find(s => s.id === entry.target.id);
+        if (current?.link) {
+          current.link.classList.add("nav__link--active");
+        }
+      }
+    });
   }, {
-    threshold: 0.2
+    threshold: 0.35,
+    rootMargin: "-20% 0px -45% 0px"
   });
 
-  elements.forEach(el => observer.observe(el));
+  sections.forEach(section => {
+    const el = document.getElementById(section.id);
+    if (el) sectionObserver.observe(el);
+  });
 
+
+  /* ================= COUNTERS ================= */
   const statNumbers = document.querySelectorAll(".stat-number");
 
-  const animateValue = (element, target) => {
+  const animateValue = (el, target) => {
     let current = 0;
     const increment = Math.ceil(target / 40);
 
     const update = () => {
       current += increment;
-
       if (current >= target) {
-        element.textContent = target;
+        el.textContent = target;
         return;
       }
-
-      element.textContent = current;
+      el.textContent = current;
       requestAnimationFrame(update);
     };
 
@@ -107,54 +82,81 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     });
-  }, {
-    threshold: 0.4
+  }, { threshold: 0.4 });
+
+  if (statsSection) statsObserver.observe(statsSection);
+
+
+  /* ================= SMOOTH SCROLL ================= */
+  const links = document.querySelectorAll('a[href^="#"]');
+
+  links.forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute("href"));
+      target?.scrollIntoView({ behavior: "smooth" });
+    });
   });
 
-  if (statsSection) {
-    statsObserver.observe(statsSection);
+
+  /* ================= FORM → TELEGRAM ================= */
+  const form = document.getElementById("booking-form");
+  const status = document.getElementById("form-status");
+
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = new FormData(form);
+
+      const payload = {
+        name: data.get("name"),
+        phone: data.get("phone"),
+        message: data.get("message")
+      };
+
+      status.textContent = "Надсилаємо...";
+
+      try {
+        const res = await fetch("/send-telegram", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await res.json();
+
+        if (!res.ok) throw new Error();
+
+        status.textContent = "Заявку відправлено";
+        form.reset();
+      } catch {
+        status.textContent = "Помилка. Спробуйте ще раз";
+      }
+    });
+  }
+
+});
+
+
+/* ================= LOADER ================= */
+window.addEventListener("load", () => {
+  const loader = document.querySelector(".loader");
+  if (loader) {
+    setTimeout(() => loader.classList.add("hide"), 500);
   }
 });
 
-const links = document.querySelectorAll('a[href^="#"]');
 
-links.forEach(link => {
-  link.addEventListener("click", function (e) {
-    e.preventDefault();
-
-    const targetId = this.getAttribute("href");
-    const target = document.querySelector(targetId);
-
-    if (target) {
-      target.scrollIntoView({
-        behavior: "smooth"
-      });
-    }
-  });
-});
-
-const form = document.querySelector(".booking-form");
-
-if (form) {
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    alert("Дякуємо! Ми зв'яжемось з вами");
-
-    form.reset();
-  });
-}
-
+/* ================= HEADER SCROLL ================= */
 const header = document.querySelector(".siteHeader");
 
 window.addEventListener("scroll", () => {
-  if (window.scrollY > 50) {
-    header.classList.add("header-scrolled");
-  } else {
-    header.classList.remove("header-scrolled");
-  }
+  header?.classList.toggle("header-scrolled", window.scrollY > 50);
 });
 
+
+/* ================= TILT EFFECT ================= */
 const cards = document.querySelectorAll(".adv-card, .priceCard, .reviewCard");
 
 cards.forEach(card => {
@@ -174,26 +176,35 @@ cards.forEach(card => {
   });
 });
 
+
+/* ================= RIPPLE ================= */
 const buttons = document.querySelectorAll(".btn");
 
 buttons.forEach(btn => {
   btn.addEventListener("click", function (e) {
     const circle = document.createElement("span");
 
-    const diameter = Math.max(btn.clientWidth, btn.clientHeight);
-    const radius = diameter / 2;
+    const d = Math.max(btn.clientWidth, btn.clientHeight);
+    const r = d / 2;
 
-    circle.style.width = circle.style.height = `${diameter}px`;
-    circle.style.left = `${e.clientX - btn.offsetLeft - radius}px`;
-    circle.style.top = `${e.clientY - btn.offsetTop - radius}px`;
+    circle.style.width = circle.style.height = `${d}px`;
+    circle.style.left = `${e.clientX - btn.offsetLeft - r}px`;
+    circle.style.top = `${e.clientY - btn.offsetTop - r}px`;
     circle.classList.add("ripple");
 
-    const ripple = btn.getElementsByClassName("ripple")[0];
-
-    if (ripple) {
-      ripple.remove();
-    }
+    const ripple = btn.querySelector(".ripple");
+    if (ripple) ripple.remove();
 
     btn.appendChild(circle);
   });
+});
+
+// ============VIDEO==========
+const heroVideo = document.querySelector(".hero-bg-video");
+
+window.addEventListener("scroll", () => {
+  if (!heroVideo) return;
+
+  const offset = window.scrollY * 0.25;
+  heroVideo.style.transform = `scale(1.08) translateY(${offset}px)`;
 });
